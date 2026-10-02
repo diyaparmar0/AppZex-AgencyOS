@@ -1,2 +1,3 @@
+export const dynamic = 'force-dynamic';
 import { query } from '@/lib/db'; import { requireContext } from '@/lib/auth'; import { ok,fail,safe } from '@/lib/http';
 export async function GET(req){return safe(async()=>{const a=await requireContext(['super_admin']);if(a.error)return fail(a.error,a.status);const s=new URL(req.url).searchParams.get('search')||'';const [rows]=await query(`SELECT a.*, (SELECT COUNT(*) FROM users u WHERE u.agency_id=a.id) user_count,(SELECT COUNT(*) FROM clients c WHERE c.agency_id=a.id) client_count,(SELECT COUNT(*) FROM projects p WHERE p.agency_id=a.id) project_count FROM agencies a WHERE a.name LIKE ? OR a.owner_name LIKE ? OR a.contact_email LIKE ? ORDER BY a.created_at DESC`,[`%${s}%`,`%${s}%`,`%${s}%`]);return ok({rows});})}

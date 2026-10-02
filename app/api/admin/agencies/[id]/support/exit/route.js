@@ -1,2 +1,3 @@
+export const dynamic = 'force-dynamic';
 import { getContext,createToken } from '@/lib/auth'; import { cookies } from 'next/headers'; import { ok,fail } from '@/lib/http';
 export async function POST(){const c=await getContext();if(!c?.support)return fail('Not in support mode',400);cookies().set('appzex_session',await createToken({sub:String(c.id),role:'super_admin'}),{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',path:'/',maxAge:60*60*8});return ok({ok:true});}

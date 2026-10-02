@@ -1,1 +1,2 @@
+export const dynamic = 'force-dynamic';
 import { getContext } from '@/lib/auth'; import { ok,fail,safe } from '@/lib/http'; export async function GET(){return safe(async()=>{const ctx=await getContext(); if(!ctx)return fail('Not authenticated',401); if(ctx.blocked)return fail('This agency is suspended. Contact AppZex support.',403,{code:'AGENCY_SUSPENDED'}); return ok({user:ctx});})}
